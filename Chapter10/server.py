@@ -29,8 +29,7 @@ class ConvNet(nn.Module):
         x = F.relu(x)
         x = self.dp2(x)
         x = self.fc2(x)
-        op = F.log_softmax(x, dim=1)
-        return op
+        return F.log_softmax(x, dim=1)
     
 model = ConvNet()
 PATH_TO_MODEL = "./convnet.pth"
@@ -41,8 +40,7 @@ def run_model(input_tensor):
     model_input = input_tensor.unsqueeze(0)
     with torch.no_grad():
         model_output = model(model_input)[0]
-    model_prediction = model_output.detach().numpy().argmax()
-    return model_prediction
+    return model_output.detach().numpy().argmax()
 
 def post_process(output):
     return str(output)
@@ -56,8 +54,7 @@ def test():
     input_array = np.frombuffer(data, dtype=np.float32)
     input_image_tensor = torch.from_numpy(input_array).view(md["dims"])
     output = run_model(input_image_tensor)
-    final_output = post_process(output)
-    return final_output
+    return post_process(output)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8890)
