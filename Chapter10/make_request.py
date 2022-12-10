@@ -12,8 +12,9 @@ def image_to_tensor(image):
     gray_image = transforms.functional.to_grayscale(image)
     resized_image = transforms.functional.resize(gray_image, (28, 28))
     input_image_tensor = transforms.functional.to_tensor(resized_image)
-    input_image_tensor_norm = transforms.functional.normalize(input_image_tensor, (0.1302,), (0.3069,))
-    return input_image_tensor_norm
+    return transforms.functional.normalize(
+        input_image_tensor, (0.1302,), (0.3069,)
+    )
 
 image_tensor = image_to_tensor(image)
 
